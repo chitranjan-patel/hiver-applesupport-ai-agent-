@@ -27,6 +27,21 @@ Defined 10 intents based on actual customer requests: `software_update_issue`, `
 - **Generator**: Local LLM (`Ollama` / `llama3.1`) with a deterministic template fallback.
 - **Escalation Policy**: Rule-based heuristic checking classifier confidence and retrieval similarity.
 
+### Workflow Diagram
+
+```mermaid
+graph TD
+    A[Customer Tweet] --> B[Intent Classifier <br> TF-IDF + LR]
+    A --> C[Dense Retriever <br> FAISS + Sentence Transformers]
+    B --> D{Escalation Policy <br> Evaluator}
+    C --> D
+    D -- Low Confidence / Low Similarity --> E[ESCALATE to Human Agent]
+    D -- High Confidence & Similarity --> F[AUTO-HANDLE]
+    F --> G[LLM Generator <br> LLaMA 3.1]
+    C -. Context .-> G
+    G --> H[Final Reply to Customer]
+```
+
 ## 7. Preprocessing
 Handled missing values, deduplicated interactions, isolated customer/agent roles, and reconstructed multi-turn threads by linking `in_response_to_tweet_id`. Kept linguistic noise (slang, emojis) to train on real distribution.
 
