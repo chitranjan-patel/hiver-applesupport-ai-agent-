@@ -57,9 +57,10 @@ The LLM is prompted strictly with retrieved historical agent replies to prevent 
 ## 11. Escalation Policy
 Evaluates signals (Intent confidence < 0.5, Retrieval similarity < 0.4, or complex intents like hardware issues) to strictly decide between `AUTO_HANDLE` and `ESCALATE`.
 
-## 12. Baselines
-- **Trivial Baseline**: Always predicts `other_complaint`. Achieves ~33% accuracy.
-- **TF-IDF + LR Baseline**: Achieves 75.5% intent accuracy.
+## 12. Baselines & Development Metrics
+*(Note: These baselines were evaluated against the initial pseudo-labels during development. They are not directly comparable to the final 58.0% system accuracy which is evaluated against strict human ground truth.)*
+- **Trivial Baseline (Pseudo-labels)**: Always predicts `other_complaint`. Achieved ~33% accuracy.
+- **TF-IDF + LR Baseline (Pseudo-labels)**: Achieved 75.5% intent accuracy.
 
 ## 13. Evaluation Methodology
 Metrics are computed over a 200-example golden set. **Leakage Audit**: The codebase explicitly filters out any `customer_tweet_id` present in `golden_set.csv` before building the TF-IDF training corpus or the FAISS retrieval index, ensuring zero exact-match contamination.
