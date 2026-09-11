@@ -11,10 +11,14 @@ results/
 !results/metrics.json
 !results/predictions.csv
 !results/failure_analysis.md
+!results/simple_classifier.pkl
+!results/simple_retrieval.pkl
 tests/__pycache__/
 venv/
 .pytest_cache/
 *.bin
 *.pkl
+!data/faiss_index.bin
+!data/retrieval_corpus.pkl
 twcs.csv
 twcs/
