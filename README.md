@@ -16,7 +16,7 @@ The goal is to turn real, noisy Twitter support conversations into a reliable au
 ## 4. Dataset & Sampling
 - Extracted raw conversations and reconstructed 106,625 valid inbound-outbound pairs for `AppleSupport`.
 - Generated a **200-example golden set** (`data/golden_set.csv`).
-- **PENDING**: The golden set labels were initially generated heuristically/pseudo-labeled. Manual human review is pending before final validation.
+- The initial labels were heuristic/pseudo-labels used during development. The final golden set was manually reviewed, and final evaluation uses these human-reviewed labels.
 
 ## 5. Intent Taxonomy
 Defined 10 intents based on actual customer requests: `software_update_issue`, `battery_issue`, `hardware_device_issue`, `apple_id_icloud_issue`, `app_feature_issue`, `keyboard_autocorrect_bug`, `scam_phishing_report`, `status_update_request`, `context_provided`, `other_complaint`.
@@ -24,7 +24,7 @@ Defined 10 intents based on actual customer requests: `software_update_issue`, `
 ## 6. Architecture
 - **Intent Classifier**: TF-IDF + Logistic Regression.
 - **Retriever**: `sentence-transformers` (`all-MiniLM-L6-v2`) + FAISS.
-- **Generator**: Local LLM (`Ollama` / `llama3.1`) with a deterministic template fallback.
+- **Generator**: Local LLM (`Ollama` / `llama3.2:1b`) with a deterministic template fallback.
 - **Escalation Policy**: Rule-based heuristic checking classifier confidence and retrieval similarity.
 
 ### Workflow Diagram
@@ -37,7 +37,7 @@ graph TD
     C --> D
     D -- Low Confidence / Low Similarity --> E[ESCALATE to Human Agent]
     D -- High Confidence & Similarity --> F[AUTO-HANDLE]
-    F --> G[LLM Generator <br> LLaMA 3.1]
+    F --> G[LLM Generator <br> LLaMA 3.2 1B]
     C -. Context .-> G
     G --> H[Final Reply to Customer]
 ```
@@ -65,26 +65,37 @@ Evaluates signals (Intent confidence < 0.5, Retrieval similarity < 0.4, or compl
 Metrics are computed over a 200-example golden set. **Leakage Audit**: The codebase explicitly filters out any `customer_tweet_id` present in `golden_set.csv` before building the TF-IDF training corpus or the FAISS retrieval index, ensuring zero exact-match contamination.
 
 ## 14. Results (Final Validated State)
-- **Intent Accuracy**: 58.0% (Dropped from 75.5% after evaluating against realistic human labels instead of clean pseudo-labels).
+- **Intent Accuracy**: 58.0%. An initial evaluation against the development/pseudo-labelled targets produced 75.5% accuracy. After replacing those targets with the manually reviewed golden labels, final intent accuracy was 58.0%. We report 58.0% as the headline validated result.
 - **Escalation Accuracy**: 87.0% (Significantly improved from 42% on pseudo-labels. The policy correctly escalates ambiguous queries and handles confident ones).
 - **Human vs LLM Agreement**: 100% agreement (within +/-1 tolerance) on Correctness, and 98% agreement on Groundedness based on manual human review.
 - **Dense Retrieval Pipeline**: Functional and caching correctly.
 - **Escalation Mechanism**: Actively catches low-confidence outputs.
 
 ## 15. LLM-as-a-Judge
-A 1-5 scale rubric evaluating Correctness, Groundedness, Helpfulness, Relevance, and Tone. Powered by local `llama3.1`, it yielded an average Correctness of 3.97/5 and Groundedness of 4.99/5.
+A 1-5 scale rubric evaluating Correctness, Groundedness, Helpfulness, Relevance, and Tone. Powered by local `llama3.2:1b`, it yielded an average Correctness of 3.97/5 and Groundedness of 4.99/5.
 
 ## 16. Human Agreement Validation
-`evaluation/calculate_agreement.py` compared manual human scores against the LLM judge to establish correlation and absolute differences. Results showed near-perfect agreement (100% for Correctness and 98% for Groundedness), validating the LLM's use as a reliable automated judge for this pipeline.
+`evaluation/calculate_agreement.py` compared 50 manual human scores against the LLM judge. The human comparison provides supporting evidence of alignment on the reviewed sample, though we acknowledge the limited sample size and that this agreement does not establish universal reliability.
+
+- **Correctness ±1 agreement:** 100%
+- **Correctness exact match:** 88%
+- **Groundedness ±1 agreement:** 98%
+- **Groundedness exact match:** 96%
 
 ## 17. Failure Analysis
-Top real failure modes from `results/predictions.csv`:
+Top failure modes (distinguishing genuine model failures from label issues):
+
+**A. Genuine Model Failures**
 1. **TF-IDF Keyword Over-indexing**: Multi-sentence context confuses the bag-of-words model.
-2. **Invalid Evaluation Label**: Agent escalates correctly, but the pseudo-label expected auto-handle.
-3. **Template Rigidity**: The deterministic fallback cannot synthesize multiple cases or provide nuanced empathy.
+2. **Template Rigidity**: The deterministic fallback lacks empathy and cannot synthesize multiple documents.
+3. **Multi-Intent Ambiguity**: Customers combining battery + software complaints in a single tweet lowers pure intent classification accuracy.
+4. **Missing Historical Context**: Rare issues lack sufficient FAISS vectors to ground an accurate generative reply.
+
+**B. Evaluation-Label Issues (Not True Model Failures)**
+5. **Invalid Pseudo-Label Mismatch**: The agent correctly escalates an ambiguous case, but the heuristic ground truth incorrectly expected it to be auto-handled.
 
 ## 18. What Is Misleading About My Headline Number?
-The 58% intent accuracy implies the system is poor at understanding customers. However, in reality, the dataset is extremely noisy and multi-intent (e.g., customers complaining about battery AND software at the same time). The model correctly leans into the 87% escalation accuracy—if it isn't sure, it escalates to a human, which is the exact desired behavior for a safe enterprise AI.
+The 58.0% intent accuracy is measured on a 200-example human-reviewed golden set and is not equivalent to real-world production accuracy. The taxonomy is project-defined, the Twitter data is noisy and multi-intent, and the evaluated sample is limited. Furthermore, intent accuracy alone does not measure overall support-agent quality; the system's escalation policy reduces risk by escalating to a human when confidence/evidence is weak.
 
 ## 19. Limitations
 1. Does not currently handle multi-turn conversational context (only evaluates single tweets).
@@ -100,13 +111,15 @@ The 58% intent accuracy implies the system is poor at understanding customers. H
 See `docs/decision_log.md` for a complete breakdown of 14 non-obvious technical decisions (e.g. why AppleSupport, why TF-IDF, why strict escalation thresholds).
 
 ## 22. Reproduction Instructions
+The headline results can be reproduced on the documented subsample in under 15 minutes, without requiring the full ~3M-row dataset.
+
 1. Install Python 3.10+
 2. `pip install -r requirements.txt`
 3. Download the Kaggle dataset (`twcs.csv`) and place it in the root directory.
 4. Run `python src/preprocessing.py`
 5. Run `python src/classifier.py`
 6. Run `python src/dense_retrieval.py`
-7. Ensure Ollama is installed and running (`ollama run llama3.1`).
+7. Ensure Ollama is installed and running (`ollama run llama3.2:1b`).
 8. Run `python evaluation/run_evaluation.py`
 9. Run `python evaluation/calculate_agreement.py`
 10. To test a single query: `python -m src.agent --text "My iPhone battery is draining very fast"`
