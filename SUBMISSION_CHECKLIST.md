@@ -1,0 +1,21 @@
+# Final Submission Checklist
+
+- [PASS] GitHub repository ready (No large datasets or API keys committed)
+- [PASS] README complete (Includes setup, reproduction, limitations, and failure analysis)
+- [PASS] 200 golden examples present
+- [MANUAL ACTION REQUIRED] Golden labels human-reviewed
+- [MANUAL ACTION REQUIRED] Expected actions human-reviewed
+- [MANUAL ACTION REQUIRED] 50 human judge examples scored
+- [PARTIAL] Human-vs-LLM agreement calculated (Mechanism ready, waiting for human labels)
+- [PASS] Ollama tested and fallback limitation documented
+- [PASS] Trivial baseline evaluated
+- [PASS] TF-IDF baseline evaluated
+- [PASS] Main system evaluated
+- [PASS] Leakage audit completed (Exact match filtering documented)
+- [PASS] Failure analysis completed (5 clear modes documented in README)
+- [PASS] Decision log has 10–15 decisions
+- [PASS] Unit tests pass
+- [PASS] No secrets committed
+- [PASS] Repository can be reproduced
+- [PASS] Final README checked
+- [MANUAL ACTION REQUIRED] Notion submission form ready (After human review)

@@ -1,0 +1,79 @@
+intents:
+  - name: software_update_issue
+    definition: "Customer is experiencing issues, lag, or bugs after updating their iOS or macOS software."
+    inclusion_criteria: "Mentions of 'update', 'iOS 11', 'new iOS', 'slow after update'."
+    exclusion_criteria: "Specific bugs that have their own category like the keyboard autocorrect bug."
+    examples:
+      - "this iOS 11 update has trashed my brand new iphone."
+      - "New iOS has pretty much slowed my phone down"
+  
+  - name: battery_issue
+    definition: "Customer is complaining about battery drain, poor battery life, or charging issues."
+    inclusion_criteria: "Mentions of 'battery', 'drain', 'charge', 'dying fast'."
+    exclusion_criteria: "Mentions of physical charger cables breaking."
+    examples:
+      - "massive battery drainage lag while using phone hangs"
+      - "battery life is already SHOCKING"
+
+  - name: keyboard_autocorrect_bug
+    definition: "Customer is experiencing the known iOS autocorrect bug where 'I' turns into a symbol, or 'it' turns into 'I.T'."
+    inclusion_criteria: "Mentions of 'auto correct', 'I bug', 'question mark symbol'."
+    exclusion_criteria: "General keyboard slowness (goes to software_update_issue)."
+    examples:
+      - "fix the auto correct bugs and the I bug."
+      - "how do I fix 'it' changing to I.T."
+
+  - name: apple_id_icloud_issue
+    definition: "Customer is locked out of their Apple ID, forgot password, or has iCloud syncing issues."
+    inclusion_criteria: "Mentions of 'Apple ID', 'password', 'reset', 'iCloud', 'lost photos'."
+    exclusion_criteria: "App-specific data loss not related to iCloud."
+    examples:
+      - "i can't reset my password for my apple id please help"
+      - "help getting my iCloud to fucking work and ended up losing every photo"
+
+  - name: hardware_device_issue
+    definition: "Customer's physical device is malfunctioning, freezing, locking itself, or damaged."
+    inclusion_criteria: "Mentions of 'screen broken', 'phone locking itself', 'won't turn on'."
+    exclusion_criteria: "Software bugs clearly caused by an update."
+    examples:
+      - "iPhone x that every 30 seconds or so is now re-locking itself"
+      - "cant make a charger that actually freakin charges"
+
+  - name: app_feature_issue
+    definition: "A specific Apple app or feature (iMessage, Siri, Apple Music, Wifi) is not working correctly."
+    inclusion_criteria: "Mentions of 'iMessage', 'Siri', 'WiFi', 'music stopping'."
+    exclusion_criteria: "3rd party app issues."
+    examples:
+      - "iMessage not working after the latest iOS update."
+      - "WHY won't Siri speak directions it's dangerous"
+
+  - name: scam_phishing_report
+    definition: "Customer is reporting a suspicious email, text, or call claiming to be from Apple."
+    inclusion_criteria: "Mentions of 'email posing as Apple', 'is this real', 'scam'."
+    exclusion_criteria: "Genuine billing inquiries."
+    examples:
+      - "Email posing as Apple. 😒"
+      - "Is this true or false? [link]"
+
+  - name: purchase_upgrade_inquiry
+    definition: "Customer is asking about buying a new device, pre-orders, or the Apple Upgrade Program."
+    inclusion_criteria: "Mentions of 'upgrade program', 'pre order', 'buy'."
+    exclusion_criteria: "Complaints about the price of devices."
+    examples:
+      - "I'm part of the Apple upgrade program. If I can't pre order this time, I'll be able to the next wave correct?"
+
+  - name: context_provided
+    definition: "Customer is merely replying with their iOS version or device model requested by the agent."
+    inclusion_criteria: "Short messages with just a version number or device name."
+    exclusion_criteria: "Full sentences describing an issue."
+    examples:
+      - "iPhone 7 plus"
+      - "11.1.2"
+
+  - name: other_complaint
+    definition: "Customer is expressing general frustration without specifying a technical issue."
+    inclusion_criteria: "Rants, vague complaints, profanity directed at Apple."
+    exclusion_criteria: "Actionable technical support requests."
+    examples:
+      - "Apple you suck"
+      - "I hate my phone"

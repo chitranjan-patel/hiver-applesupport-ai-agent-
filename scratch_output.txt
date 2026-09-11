@@ -1,0 +1,54 @@
+
+========== QUERY: My iPhone battery is draining very fast after the iOS 11 update. ==========
+Predicted Intent: software_update_issue (Conf: 1.00)
+Decision: AUTO_HANDLE - High confidence, strong evidence, and intent is suitable for automated response.
+
+RETRIEVED EVIDENCE:
+--- Case 1 ---
+Cust: After iOS 11.0.3 update My iPhone battery is draining SO fast 😖😖 @115858 @AppleSupport
+Agent: @566553 Try following the steps in this link and send us a DM if you still have issues: https://t.co/bivpdfBNJ6 https://t.co/GDrqU22YpT
+--- Case 2 ---
+Cust: @AppleSupport I just updated to iOS 11.0.3 and my battery has started to drain quickly. Please help
+Agent: @324868 We want your battery to be perfect after an update. DM us with which device you use, and we'll take a look. https://t.co/GDrqU22YpT
+--- Case 3 ---
+Cust: @AppleSupport My phone’s battery is dying all thanks to the recent iOS 11 update! It drains out even when I keep my WiFi switched off!!!!
+Agent: @142830 Thanks for reaching out to us for support. We would love to help you. Please DM us so that we can look into this together. https://t.co/GDrqU22YpT
+
+FINAL REPLY:
+I understand your concern about your iPhone's battery draining quickly after the iOS 11 update. According to case 1, , it's recommended to follow the steps in the provided link and DM us if you still have issues. Case 2 shows that we've helped users with similar problems, and Case 3 shares that we're here to help you as well. Can you DM us to discuss further and see how we can assist you?
+
+========== QUERY: My iPhone screen isn't responding to touch. ==========
+Predicted Intent: keyboard_autocorrect_bug (Conf: 0.44)
+Decision: ESCALATE - Low intent confidence (0.44 < 0.5). Case is ambiguous.
+
+RETRIEVED EVIDENCE:
+--- Case 1 ---
+Cust: @AppleSupport my phone isn't responding at all, with buttons or screen. What do I do?
+Agent: @125567 We've received your DM and will continue from there. https://t.co/GDrqU22YpT
+--- Case 2 ---
+Cust: @AppleSupport so why is my less than a month old iPhone 8+ having screen issues when I’ve never dropped it or hit it on anything 🙃 https://t.co/0e1H33npsA
+Agent: @332661 We want you to enjoy your new iPhone without worry. Please send us a DM so we may better assist you. https://t.co/GDrqU22YpT
+--- Case 3 ---
+Cust: @AppleSupport iOS 11.1.1 cause touch problem. It didnt response the right place where I touched the screen. My 6s is very low efficiency now.
+Agent: @668125 We know how important it is to have full use of your iPhone. Let's take a closer look at this together. Does this happen with specific apps or screens? DM us more info and we'll go from there. https://t.co/GDrqU22YpT
+
+FINAL REPLY:
+can you look into why my iPhone screen isn't responding to touch? I'm experiencing a similar issue with my less than a month old iPhone 8+. Please DM me for assistance.
+
+========== QUERY: I forgot my Apple ID password and can't log into my account. ==========
+Predicted Intent: keyboard_autocorrect_bug (Conf: 0.67)
+Decision: ESCALATE - Safety fallback for unhandled intent states.
+
+RETRIEVED EVIDENCE:
+--- Case 1 ---
+Cust: @AppleSupport I don’t remember my password for getting into my MacBook.
+Agent: @638208 We can help. Check out this article for what to do if you don't remember the password to your Mac: https://t.co/QnMgELDQi7
+--- Case 2 ---
+Cust: HELP @AppleSupport why can’t I freaking log into iCloud???? I haven’t been able to log in for months
+Agent: @342723 We'd like to help out with that. What happens when you try to sign in?
+--- Case 3 ---
+Cust: @AppleSupport hey I recently disabled my Apple ID and I would like to re enable it
+Agent: @529640 Have you seen the steps here? https://t.co/HH37urdbz9
+
+FINAL REPLY:
+Sorry to hear that you're having trouble with your Apple ID password. We're here to help. Can you DM us with more details about what you're seeing, like what you've tried so far to log in?
