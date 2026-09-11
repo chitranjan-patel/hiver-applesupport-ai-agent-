@@ -2,7 +2,7 @@
 
 > An intelligent customer support AI agent for AppleSupport, featuring intent classification, dense retrieval (RAG), and a local LLM-based reply generator with a strict escalation policy. Built for the Hiver SDE Intern Challenge.
 
-🔗 **[Live Demo (Streamlit/Cloud) - Click Here](#)** *(Replace `#` with your live link once deployed)*
+🔗 **[Live Demo (Streamlit/Cloud) - Click Here](https://mrr2bqkvbjpwr7opayqwix.streamlit.app)**
 
 ## 1. Executive Summary
 This project implements an AI customer support agent for the `AppleSupport` brand using the Kaggle *Customer Support on Twitter* dataset. The agent classifies intents, retrieves historical evidence via dense embedding, generates replies (or uses deterministic fallbacks), and implements an explainable escalation policy. **Crucially, the focus is on rigorous, honest evaluation over inflated metrics.**
